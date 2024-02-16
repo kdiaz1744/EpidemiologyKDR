@@ -9,8 +9,13 @@ namespace EpidemiologyKDR.Controllers
     [Route("api/individuals")]
     public class IndividualsController : ControllerBase
     {
-        // Being stored in
-        private List<Individual> individuals = new List<Individual>();
+        //****************************************************************************
+        //*     NOTE: Individuals are being stored on this list, and for the sake of *
+        //* this assignment, the list was made STATIC, which is not a good practice  *
+        //* when making bigger projects, but for the sake of these examples, it's    *
+        //* what I chose.                                                            *
+        //****************************************************************************
+        static private List<Individual> individuals = new List<Individual>();
 
         // GET /api/individuals
         [HttpGet]
@@ -49,7 +54,7 @@ namespace EpidemiologyKDR.Controllers
             individual.Id = individuals.Count + 1;
             individuals.Add(individual);
 
-            // Return HTTP 201 (Created) response with the created individual
+            // Return response with the created individual
             return CreatedAtAction(nameof(Get), new { id = individual.Id }, individual);
         }
 
@@ -80,9 +85,28 @@ namespace EpidemiologyKDR.Controllers
             existingIndividual.Diagnosed = updatedIndividual.Diagnosed;
             existingIndividual.Date_Diagnosed = updatedIndividual.Date_Diagnosed;
 
-            // Return standard HTTP 200 (OK) response with the updated individual
+            // Return response with the updated individual
             return Ok(existingIndividual);
         }
+
+        // DELETE /api/individuals/{id}
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            var individualToDelete = individuals.FirstOrDefault(i => i.Id == id && i.Diagnosed);
+            if (individualToDelete == null)
+            {
+                // If the individual is not found
+                return NotFound($"Individual with Id {id} not found.");
+            }
+
+            // Remove the individual from the list
+            individuals.Remove(individualToDelete);
+
+            // Return to indicate a successful deletion
+            return NoContent();
+        }
+
 
     }
 }
