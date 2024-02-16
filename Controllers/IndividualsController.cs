@@ -26,6 +26,7 @@ namespace EpidemiologyKDR.Controllers
             var individual = individuals.FirstOrDefault(i => i.Id == id && i.Diagnosed);
             if (individual == null)
             {
+                //If individual not found
                 return NotFound($"Individual with Id {id} not found.");
             }
 
@@ -36,8 +37,19 @@ namespace EpidemiologyKDR.Controllers
         [HttpPost]
         public ActionResult<Individual> Post([FromBody] Individual individual)
         {
+            // Validate the input
+            if (individual == null)
+            {
+                //If invalid input
+                return BadRequest("Invalid input. Please provide valid data for the new individual.");
+            }
+
+            // Setting the properties for the new individual
+            individual.Diagnosed = true;
             individual.Id = individuals.Count + 1;
             individuals.Add(individual);
+
+            // Return HTTP 201 (Created) response with the created individual
             return CreatedAtAction(nameof(Get), new { id = individual.Id }, individual);
         }
 
@@ -45,20 +57,32 @@ namespace EpidemiologyKDR.Controllers
         [HttpPut("{id}")]
         public ActionResult<Individual> Put(int id, [FromBody] Individual updatedIndividual)
         {
+            // Validate input
+            if (updatedIndividual == null)
+            {
+                //If invalid input
+                return BadRequest("Invalid input. Please provide valid data for updating the individual.");
+            }
+
+            // Find individual to update
             var existingIndividual = individuals.FirstOrDefault(i => i.Id == id && i.Diagnosed);
+
+            // Check if individual is found
             if (existingIndividual == null)
             {
                 return NotFound($"Individual with Id {id} not found.");
             }
 
+            // Update properties of the existing individual
             existingIndividual.Name = updatedIndividual.Name;
             existingIndividual.Age = updatedIndividual.Age;
             existingIndividual.Symptoms = updatedIndividual.Symptoms;
             existingIndividual.Diagnosed = updatedIndividual.Diagnosed;
             existingIndividual.Date_Diagnosed = updatedIndividual.Date_Diagnosed;
 
+            // Return standard HTTP 200 (OK) response with the updated individual
             return Ok(existingIndividual);
         }
-    }
 
+    }
 }
