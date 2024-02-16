@@ -89,7 +89,9 @@ namespace EpidemiologyKDR.Controllers
             return Ok(existingIndividual);
         }
 
+
         // DELETE /api/individuals/{id}
+        //  This function was made for testing purposes only, since it wasn't mentioned in the project requirements.
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
