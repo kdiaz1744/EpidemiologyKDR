@@ -10,8 +10,8 @@ The Epidemiology Tracking System is a web API for managing data on individuals d
 - In-Memory Database
 
 ## Installation
-1. Clone the repository: `git clone https://github.com/your-username/epidemiology-tracking-system.git`
-2. Navigate to the project folder: `cd epidemiology-tracking-system`
+1. Clone the repository: `git clone https://github.com/kdiaz1744/EpidemiologyKDR.git`
+2. Navigate to the project folder: `cd EpidemiologyKDR`
 3. Open the project in Visual Studio or your preferred IDE.
 4. Build and run the project.
 
